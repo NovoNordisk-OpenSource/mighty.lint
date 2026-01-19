@@ -11,8 +11,7 @@ checks for issues that arise when writing mighty components.
 You can install the development version of mighty.lint from GitHub:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("NovoNordisk-OpenSource/mighty.lint")
+pak::pak("NovoNordisk-OpenSource/mighty.lint")
 ```
 
 ## Linters
