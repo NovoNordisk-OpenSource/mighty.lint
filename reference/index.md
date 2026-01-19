@@ -1,0 +1,6 @@
+# Package index
+
+## All functions
+
+- [`hello()`](https://nn-opensource.github.io/Rtemplate/reference/hello.md)
+  : Hello
