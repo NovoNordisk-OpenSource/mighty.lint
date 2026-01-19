@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(Rtemplate)
+library(mighty.lint)
 
-test_check("Rtemplate")
+test_check("mighty.lint")
