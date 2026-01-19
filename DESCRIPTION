@@ -1,11 +1,11 @@
 Package: mighty.lint
-Title: A lint package for mighty components
+Title: Lints for for mighty components
 Version: 0.0.0.9000
 Authors@R: c(
     person("Matthew", "Phelps", , "mewp@novonordisk.com", role = c("aut", "cre")),
     person("Novo Nordisk A/S", role = c("cph"))
   )
-Description: Provides lint to make developing quality mighty components easier.
+Description: Extends "lintr" to make developing quality mighty components easier.
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
