@@ -28,8 +28,7 @@ mighty.lint provides custom linters to help develop quality mighty components. T
 You can install the development version of mighty.lint from GitHub:
 
 ```{r, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("NovoNordisk-OpenSource/mighty.lint")
+pak::pak("NovoNordisk-OpenSource/mighty.lint")
 ```
 
 ## Linters
