@@ -116,12 +116,9 @@ lint_implicit_join <- function(
     return(NULL) # Bare call (no namespace)
   }
 
-  # Extract package name
+  # Extract package name (guaranteed to exist when NS_GET is present)
   pkg_node <- xml2::xml_find_first(expr_node, "./SYMBOL_PACKAGE")
-  if (!is.na(xml2::xml_name(pkg_node))) {
-    return(xml2::xml_text(pkg_node))
-  }
-  return(NULL)
+  xml2::xml_text(pkg_node)
 }
 
 #' Build XPath query for finding join function calls
@@ -162,11 +159,8 @@ lint_implicit_join <- function(
     return(function_name)
   }
 
+  # Extract package name (guaranteed to exist when NS_GET/NS_GET_INT is present)
   pkg_node <- xml2::xml_find_first(parent_expr, "./SYMBOL_PACKAGE")
-  if (is.na(xml2::xml_name(pkg_node))) {
-    return(function_name)
-  }
-
   paste0(xml2::xml_text(pkg_node), "::", function_name)
 }
 
@@ -191,7 +185,7 @@ lint_implicit_join <- function(
     column_number = location$col_num,
     type = "warning",
     message = sprintf(
-      "Join operation '%s' should explicitly specify join keys using the 'by' argument.",
+      "Join operation '%s' should explicitly specify join keys using the 'by' argument.", #nolint
       function_name
     ),
     line = location$line_text

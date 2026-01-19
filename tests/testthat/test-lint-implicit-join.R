@@ -180,7 +180,7 @@ test_that("lint_implicit_join handles 'by' with variable", {
 
 test_that("lint_implicit_join handles join_by() syntax (dplyr 1.1.0+)", {
   # dplyr 1.1.0 introduced join_by() helper
-  good_code <- 'dplyr::left_join(df1, df2, by = dplyr::join_by(id))'
+  good_code <- "dplyr::left_join(df1, df2, by = dplyr::join_by(id))"
 
   lints <- lintr::lint(text = good_code, linters = lint_implicit_join())
 
@@ -309,7 +309,7 @@ result3 <- dplyr::inner_join(df1, df2, by = "id")
 
 test_that("lint_implicit_join works with custom namespaces parameter", {
   # Test with tidylog namespace
-  tidylog_code <- 'tidylog::left_join(df1, df2)'
+  tidylog_code <- "tidylog::left_join(df1, df2)"
 
   # Should NOT detect when tidylog is not in namespaces
   lints_default <- lintr::lint(
