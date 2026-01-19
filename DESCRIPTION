@@ -1,12 +1,11 @@
-Package: Rtemplate
-Title: Template repository for new ATMOS R packages
+Package: mighty.lint
+Title: A lint package for mighty components
 Version: 0.0.0.9000
 Authors@R: c(
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID")),
+    person("Matthew", "Phelps", , "mewp@novonordisk.com", role = c("aut", "cre")),
     person("Novo Nordisk A/S", role = c("cph"))
   )
-Description: Defines common standards, workflows, and actions for new R packages.
+Description: Provides lint to make developing quality mighty components easier.
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
