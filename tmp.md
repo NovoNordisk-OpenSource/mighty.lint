@@ -28,3 +28,4 @@ This PR adds a new linter `lint_implicit_join()` that detects dplyr join operati
 - [ ] Coding style and naming conventions have been followed
 - [ ] The PR is ready for review and merge
 
+c,
