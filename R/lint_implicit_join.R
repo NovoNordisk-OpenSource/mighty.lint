@@ -37,8 +37,9 @@ lint_implicit_join <- function(
     xpath_query <- .build_join_xpath_query(join_functions, namespaces)
     join_calls <- xml2::xml_find_all(xml, xpath_query)
 
-    lints <- Negate(is.null) |>
+    lints <-
       Filter(
+        Negate(is.null),
         join_calls |>
           lapply(
             .check_join_node,
@@ -81,16 +82,20 @@ lint_implicit_join <- function(
   if (length(by_args) > 0) {
     return(NULL)
   }
+  line_num <- as.integer(xml2::xml_attr(call_node, "line1"))
+  col_num <- as.integer(xml2::xml_attr(call_node, "col1"))
+  line_text <- source_expression$lines[as.character(line_num)]
 
-  # Only implicit joins reach here
-  function_name <- .extract_function_name(call_node)
-  location <- .extract_safe_location(call_node, source_expression)
-
-  .create_implicit_join_lint(
-    source_expression,
-    function_name,
-    location
-  )
+  call_node |>
+    .extract_function_name() |>
+    .create_implicit_join_lint(
+      source_expression,
+      location = list(
+        line_num = line_num,
+        col_num = col_num,
+        line_text = line_text
+      )
+    )
 }
 
 #' Extract namespace from a function call node
@@ -165,69 +170,19 @@ lint_implicit_join <- function(
   paste0(xml2::xml_text(pkg_node), "::", function_name)
 }
 
-#' Extract source location from AST node
-#'
-#' Extracts line number, column number, and line text from an AST node
-#' with bounds checking for column positions.
-#'
-#' @param call_node XML node representing the function call
-#' @param source_expression Source expression object from lintr
-#' @return List with line_num, col_num, and line_text
-#' @noRd
-.extract_safe_location <- function(call_node, source_expression) {
-  min_col <- 1L
-
-  line_num <- as.integer(xml2::xml_attr(call_node, "line1"))
-  col_num <- as.integer(xml2::xml_attr(call_node, "col1"))
-
-  # Use file_lines which preserves all lines including blank lines,
-  # maintaining the exact line numbering that matches the XML parser's
-  # line1 attribute.
-
-  all_file_lines <- source_expression$file_lines
-
-  # Extract line text with fallback to empty string for out-of-bounds or NA
-  line_text <- if (line_num >= 1 && line_num <= length(all_file_lines)) {
-    all_file_lines[line_num]
-  } else {
-    ""
-  }
-  if (is.na(line_text)) {
-    line_text <- ""
-  }
-
-  # Bounds checking prevents errors when IDE integrations try to highlight
-  # the lint location in the editor.
-  # Column positions are 1-indexed, and can point one position past the last
-  # character (to indicate end-of-line position).
-  if (col_num < min_col) {
-    col_num <- min_col
-  }
-  max_col <- nchar(line_text) + 1L
-  if (col_num > max_col) {
-    col_num <- max_col
-  }
-
-  list(
-    line_num = line_num,
-    col_num = col_num,
-    line_text = line_text
-  )
-}
-
 #' Create a Lint object for implicit join violation
 #'
 #' Constructs a lintr::Lint object with appropriate message for joins
 #' that lack explicit 'by' arguments.
 #'
-#' @param source_expression Source expression object from lintr
 #' @param function_name Name of the join function (e.g., "left_join")
+#' @param source_expression Source expression object from lintr
 #' @param location List containing line_num, col_num, and line_text
 #' @return lintr::Lint object
 #' @noRd
 .create_implicit_join_lint <- function(
-  source_expression,
   function_name,
+  source_expression,
   location
 ) {
   lintr::Lint(
