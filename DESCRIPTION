@@ -15,4 +15,5 @@ Suggests:
 Config/testthat/edition: 3
 URL: https://novonordisk-opensource.github.io/mighty.lint/
 Imports: 
-    lintr
+    lintr,
+    xml2
