@@ -1,9 +1,15 @@
 CRAN
+dbplyr
+dplyr
 knitr
 lintr
+magrittr
 Nordisk
-pkgdown
 Pkgdown
+pkgdown
+Roxygen
+roxygen
 Rtemplate
 testthat
+tidylog
 useatmos
