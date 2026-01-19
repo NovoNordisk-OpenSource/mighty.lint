@@ -4,7 +4,12 @@
 \alias{lint_implicit_join}
 \title{Linter to detect dplyr joins without explicit 'by' argument}
 \usage{
-lint_implicit_join()
+lint_implicit_join(namespaces = c("dplyr", "tidylog", "dbplyr"))
+}
+\arguments{
+\item{namespaces}{Character vector of package namespaces to check.
+Default includes "dplyr", "tidylog", and "dbplyr". Can be customized
+to include other packages that export join functions.}
 }
 \value{
 A linter function
